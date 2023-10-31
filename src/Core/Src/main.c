@@ -255,6 +255,7 @@ int cycleTimeCounter = 100;
 const int MAX_LED = 4;
 int led_buffer[4] = {1, 2, 3, 4};
 int lex_index = 0;
+int counter = 25;
 void update7SEG(int index) {
 	switch(index) {
 	case 0:
@@ -284,15 +285,19 @@ void update7SEG(int index) {
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
 	if (cycleTimeCounter > 0) {
 		cycleTimeCounter --;
+		if (counter == 25) {
+			if (lex_index > 3) {
+				update7SEG(0);
+				lex_index = 0;
+			} else {
+				update7SEG(lex_index);
+			}
+			lex_index++;
+			counter = 0;
+		}
+		counter++;
 	} else {
 		HAL_GPIO_TogglePin(GPIOA, DOT_Pin);
-		if (lex_index > 3) {
-			update7SEG(0);
-			lex_index = 0;
-		} else {
-			update7SEG(lex_index);
-		}
-		lex_index++;
 		cycleTimeCounter = 100;
 	}
 }
