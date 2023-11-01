@@ -147,12 +147,13 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  setTimer1(5);
+  setTimer1(100);
   while (1)
   {
 	  if (timer_flag == 1) {
-		  HAL_GPIO_TogglePin(GPIOA, DOT_Pin);
-		  setTimer1(5);
+		  updateClockBuffer();
+		  HAL_GPIO_TogglePin(GPIOA, RED_Pin);
+		  setTimer1(100);
 	  }
     /* USER CODE END WHILE */
 
@@ -292,6 +293,7 @@ static void MX_GPIO_Init(void)
 //int cycleTimeCounter = 100;
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
 	timer1Run();
+
 }
 /* USER CODE END 4 */
 
