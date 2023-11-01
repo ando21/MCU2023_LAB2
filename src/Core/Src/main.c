@@ -18,6 +18,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "software_timer.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -146,22 +147,13 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+  setTimer1(5);
   while (1)
   {
-	  second++;
-	  if (second >= 60){
-		  second = 0;
-		  minute++;
+	  if (timer_flag == 1) {
+		  HAL_GPIO_TogglePin(GPIOA, DOT_Pin);
+		  setTimer1(5);
 	  }
-	  if(minute >= 60){
-		  minute = 0;
-		  hour++;
-	  }
-	  if(hour >=24){
-		  hour = 0;
-	  }
-	  updateClockBuffer();
-	  HAL_Delay(1000);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -299,24 +291,7 @@ static void MX_GPIO_Init(void)
 /* USER CODE BEGIN 4 */
 //int cycleTimeCounter = 100;
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
-//	if (cycleTimeCounter > 0) {
-//		cycleTimeCounter --;
-//		if (counter == 25) {
-//			if (lex_index > 3) {
-//				update7SEG(0);
-//				lex_index = 0;
-//			} else {
-//				update7SEG(lex_index);
-//			}
-//			lex_index++;
-//			counter = 0;
-//		}
-//		counter++;
-//	} else {
-//		HAL_GPIO_TogglePin(GPIOA, DOT_Pin);
-//		cycleTimeCounter = 100;
-//	}
-//	updateClockBuffer();
+	timer1Run();
 }
 /* USER CODE END 4 */
 
